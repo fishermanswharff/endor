@@ -1,5 +1,7 @@
 module LogParser
 
+  TIMESTAMP_REGEX = /([\d]{4}\-[\d]{2}\-[\d]{2}[\s]{1}[\d]{2}\:[\d]{2}\:[\d]{2}.*)/
+
   def self.execute(filepath)
     Dir.glob("#{filepath.chomp('/')}/**/*") { |file| puts `cat #{file}` unless File.directory?(file) }
   end
@@ -11,7 +13,7 @@ module LogParser
         File.open(file) do |f|
           content = f.read
           content.each_line do |l|
-            puts l if l.match(/([\d]{4}\-[\d]{2}\-[\d]{2}[\s]{1}[\d]{2}\:[\d]{2}\:[\d]{2}.*)/)
+            puts l if l.match(TIMESTAMP_REGEX)
           end
           f.close
         end
