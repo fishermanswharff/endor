@@ -11,8 +11,12 @@ Given a log folder `/var/logs...`
 ## Solution
 
 ```bash
-$ bundle install
-$ rake parse_logs['path/to/log/dir']
+# dependencies:
+# ruby 2.3.0
+
+$ bundle install # => install dependencies
+$ rspec spec/automation_spec.rb # => run tests
+$ rake parse_logs['path/to/log/dir'] # => rake task
 $ rake parse_logs['path/to/log/dir',true] # => outputs lines with timestamps
 
 ```
