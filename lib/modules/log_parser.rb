@@ -1,4 +1,5 @@
-require 'pry'
+require 'find'
+
 module LogParser
 
   def self.log_files(filepath)
@@ -6,16 +7,14 @@ module LogParser
   end
 
   def self.output_log(file)
-    `cat #{file}`
+    puts `cat #{file}`
   end
 
   def self.execute(filepath)
     glob = "#{filepath.chomp('/')}/**/*"
     Dir.glob(glob) do |file|
       unless File.directory?(file)
-        puts "START: #{file} >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
-        puts `cat #{file}`
-        puts "END: #{file} >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n\n"
+        LogParser.output_log(file)
       end
     end
   end
