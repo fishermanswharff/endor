@@ -11,8 +11,13 @@ RSpec.describe LogParser do
   end
 
   describe 'Automation' do
-    it 'finds all .log files within a directory, recursively' do
+    it 'finds all .log files and prints their contents within a directory, recursively' do
       expect{ LogParser.execute(File.join(Dir.tmpdir, 'foo')) }.to output("these are not the logs you are looking for\nyou’re our only hope\n").to_stdout
+    end
+
+    it 'prints lines with timestamps in the form: `YYYY-MM-DD HH:MM:SS`' do
+      File.open(File.join(Dir.tmpdir, 'foo','star_date.log'), 'w') { |f| f << '2016-06-16 12:11:51 The force will be with you.' }
+      expect{ LogParser.execute_with_timestamps(File.join(Dir.tmpdir, 'foo')) }.to output("2016-06-16 12:11:51 The force will be with you.\n").to_stdout
     end
   end
 
