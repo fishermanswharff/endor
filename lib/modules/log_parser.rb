@@ -1,5 +1,3 @@
-require 'find'
-
 module LogParser
 
   def self.execute(filepath)
