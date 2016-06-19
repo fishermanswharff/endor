@@ -4,9 +4,17 @@ require_relative '../lib/modules/log_parser'
 RSpec.describe LogParser do
 
   before :each do
-    FileUtils.mkdir_p("#{Dir.tmpdir}/var/logs/foo/bar")
-    File.open(File.join(Dir.tmpdir, 'var', 'logs', 'foo', 'production.log'), 'w') { |f| f << 'you’re our only hope' }
-    File.open(File.join(Dir.tmpdir, 'var', 'logs', 'foo', 'bar', 'test.log'), 'w') { |f| f << 'these are not the logs you are looking for' }
+    begin
+      FileUtils.mkdir_p("#{Dir.tmpdir}/var/logs/foo/bar")
+      prod_log = Tempfile.new([File.join('var', 'logs', 'foo', 'production'), '.log'])
+      test_log = Tempfile.new([File.join('var', 'logs', 'foo', 'bar', 'test'), '.log'])
+      prod_log.write('you’re our only hope')
+      test_log.write('these are not the logs you are looking for')
+    ensure
+      [prod_log, test_log].each do |f|
+        f.close
+      end
+    end
   end
 
   describe 'Automation' do
